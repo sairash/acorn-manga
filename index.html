@@ -1,205 +1,208 @@
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" />
-<style type="text/css">
-    @font-face {
-      font-family: 'Pixelar';
-      font-style: normal;
-      font-weight: 400;
-      src: url(https://db.onlinewebfonts.com/t/cd2242816d23dad4250f5ea159c7675c.woff2) format('woff2');
-    }
+<head>
+    <title>Acorn Manga</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" />
+    <style type="text/css">
+        @font-face {
+          font-family: 'Pixelar';
+          font-style: normal;
+          font-weight: 400;
+          src: url(https://db.onlinewebfonts.com/t/cd2242816d23dad4250f5ea159c7675c.woff2) format('woff2');
+        }
 
-    *::-webkit-scrollbar-track {
-        background-color: transparent;
-    }
+        *::-webkit-scrollbar-track {
+            background-color: transparent;
+        }
 
-    *::-webkit-scrollbar {
-        width: 0px;
-        height: 0px;
-        background-color: transparent;
-    }
+        *::-webkit-scrollbar {
+            width: 0px;
+            height: 0px;
+            background-color: transparent;
+        }
 
-    *:focus {
-        outline: none;
-    }
-    body{
-        padding: 0;
-        margin: 0;
-        background: #000;
-        overflow: hidden;
-    }
-    .backdrop_blur {
-      background-color: rgba(255, 255, 255, .6);
-    }
-    .backdrop_black{
-      background-color: rgba(0,0,0,.6);
-    }
-    .backdrop_black_ng{
-      background-color: rgba(0,0,0,.6);
-    }
-    /* if backdrop support: very transparent and blurred */
-    @supports ((-webkit-backdrop-filter: blur(20px)) or (backdrop-filter: blur(20px))) {
-      .backdrop_black{
-        background-color: rgba(0,0,0,0);
-      }
-      .backdrop_blur {
-        background-color: rgba(255, 255, 255, 0);
-        -webkit-backdrop-filter:  blur(20px);
-        backdrop-filter:  blur(20px);
-      }
-    }
-    #myElement {
-        width: 100vw;
-        height: 100vh;
-        text-align: center;
-        font-family: Varela Round;
-        font-size: 70px;
-        position: fixed;
-        left: 0;
-        z-index: 1000;
-    }
-    /* Searchbar */
-
-      .searchBar {
-        display: flex;
-        justify-content: space-between;
-        position: absolute;
-        top: -100px;
-        z-index: 1003;
-        padding: 5px 10px 5px 10px;
-        width: calc(100% - 20px);
-        height: 50px;
-        background-color: transparent;
-        box-shadow: 0 0.3px 0.7px rgba(0, 0, 0, 0.126), 0 0.9px 1.7px rgba(0, 0, 0, 0.179), 0 1.8px 3.5px rgba(0, 0, 0, 0.224), 0 3.7px 7.3px rgba(0, 0, 0, 0.277), 0 10px 20px rgba(0, 0, 0, 0.4);
-      }
-
-      .searchBar button {
-        font-size: 20px;
-        margin-left: 10px;
-        color: #fff;
-        background-color: transparent;
-        border: none;
-        padding-top: 5px;
-        cursor: pointer;
-      }
-
-      .searchBar input {
-        width: 100%;
-        background-color: rgba(255, 255, 255, 0);
-        height: 100%;
-        font-size: 20px;
-        border: solid;
-        border-width: 0 0 2px 0;
-        border-color: white;
-        color: white;
-      }
-
-    @media screen and (max-width: 740px) {
+        *:focus {
+            outline: none;
+        }
+        body{
+            padding: 0;
+            margin: 0;
+            background: #000;
+            overflow: hidden;
+        }
+        .backdrop_blur {
+          background-color: rgba(255, 255, 255, .6);
+        }
+        .backdrop_black{
+          background-color: rgba(0,0,0,.6);
+        }
+        .backdrop_black_ng{
+          background-color: rgba(0,0,0,.6);
+        }
+        /* if backdrop support: very transparent and blurred */
+        @supports ((-webkit-backdrop-filter: blur(20px)) or (backdrop-filter: blur(20px))) {
+          .backdrop_black{
+            background-color: rgba(0,0,0,0);
+          }
+          .backdrop_blur {
+            background-color: rgba(255, 255, 255, 0);
+            -webkit-backdrop-filter:  blur(20px);
+            backdrop-filter:  blur(20px);
+          }
+        }
         #myElement {
-            font-size: 30px;
-        }
-        .titleVideoMain{
-            left: 10px;
-        }
-    }
-    #mainContainer{
-        position: absolute;
-        left: 0;
-        top: 0;
-        display: flex;
-        justify-content: center;
-    }
-    .mainContainerInner{
-        width: 100vw !important;
-        height: 100vh !important;
-    }
-    .InnerContent_first{
-        position: relative;
-        margin-top: 100vh;
-        width: 100vw !important;
-        height: 100vh !important; 
-    }
-    .InnerContent{
-        position: relative;
-        width: 100vw !important;
-        height: 100vh !important; 
-    }
-    .InnerContentInner{
-        width: 100vw !important;
-        height: 100vh !important; 
-        text-align: center;
-    }
-    .InnerContentInner .poster_front{
-        margin: 20px 0px 20px 0px;
-        width: 300px;
-        height: 450px;
-        vertical-align: middle;
-    }
-    .InnerContentInner .manga_page{
-        height: 100vh;
-        width: auto;
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        margin: auto;
-    }
-    @media screen and (max-width: 740px) {
-        .InnerContentInner .manga_page{
-            max-height: 100vh;
-            height: auto;
             width: 100vw;
+            height: 100vh;
+            text-align: center;
+            font-family: Varela Round;
+            font-size: 70px;
+            position: fixed;
+            left: 0;
+            z-index: 1000;
+        }
+        /* Searchbar */
+
+          .searchBar {
+            display: flex;
+            justify-content: space-between;
+            position: absolute;
+            top: -100px;
+            z-index: 1003;
+            padding: 5px 10px 5px 10px;
+            width: calc(100% - 20px);
+            height: 50px;
+            background-color: transparent;
+            box-shadow: 0 0.3px 0.7px rgba(0, 0, 0, 0.126), 0 0.9px 1.7px rgba(0, 0, 0, 0.179), 0 1.8px 3.5px rgba(0, 0, 0, 0.224), 0 3.7px 7.3px rgba(0, 0, 0, 0.277), 0 10px 20px rgba(0, 0, 0, 0.4);
+          }
+
+          .searchBar button {
+            font-size: 20px;
+            margin-left: 10px;
+            color: #fff;
+            background-color: transparent;
+            border: none;
+            padding-top: 5px;
+            cursor: pointer;
+          }
+
+          .searchBar input {
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0);
+            height: 100%;
+            font-size: 20px;
+            border: solid;
+            border-width: 0 0 2px 0;
+            border-color: white;
+            color: white;
+          }
+
+        @media screen and (max-width: 740px) {
+            #myElement {
+                font-size: 30px;
+            }
+            .titleVideoMain{
+                left: 10px;
+            }
+        }
+        #mainContainer{
+            position: absolute;
+            left: 0;
+            top: 0;
+            display: flex;
+            justify-content: center;
+        }
+        .mainContainerInner{
+            width: 100vw !important;
+            height: 100vh !important;
+        }
+        .InnerContent_first{
+            position: relative;
+            margin-top: 100vh;
+            width: 100vw !important;
+            height: 100vh !important; 
+        }
+        .InnerContent{
+            position: relative;
+            width: 100vw !important;
+            height: 100vh !important; 
+        }
+        .InnerContentInner{
+            width: 100vw !important;
+            height: 100vh !important; 
+            text-align: center;
+        }
+        .InnerContentInner .poster_front{
+            margin: 20px 0px 20px 0px;
+            width: 300px;
+            height: 450px;
+            vertical-align: middle;
+        }
+        .InnerContentInner .manga_page{
+            height: 100vh;
+            width: auto;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
             margin: auto;
         }
-    }
+        @media screen and (max-width: 740px) {
+            .InnerContentInner .manga_page{
+                max-height: 100vh;
+                height: auto;
+                width: 100vw;
+                margin: auto;
+            }
+        }
 
-    .InnerContentInner div{
-        font-size: 20px;
-        font-family: Pixelar;
-        padding: 20px;
-        background-color: rgba(0,0,0,.5);
-        color: #ffffff;
-    }
-    .endLoading{
-        position: absolute;
-        top: 45%;
-        left: 45%;
-        font-family: Pixelar;
-        color: white;
-        text-align: center;
-        font-size: 30px;
-    }
-    .preloader{
-        position: absolute;
-        top: 0;
-        left: 0;
-        height: 100vh;
-        width: 100vw;
-        text-align: center;
-        background-color: black;
-        font-family: Pixelar;
-        font-size: 35px;
-        color: white;
-        cursor: default;
-        z-index: 1000;
-    }
-    .preloader_inner{
-        position: absolute;
-        top: 40%;
-        left: 40%;
-    }
-    .preloader_inner h1{
-        margin-top: -15px;
-    }
-    .tag{
-        position: absolute;
-        font-size: 15px;
-        color: rgba(0, 0, 0, .5);
-        padding: 10px;
-        right: 0;
-        background-color: rgba(255, 255, 255, .5);
-    }
-</style>
+        .InnerContentInner div{
+            font-size: 20px;
+            font-family: Pixelar;
+            padding: 20px;
+            background-color: rgba(0,0,0,.5);
+            color: #ffffff;
+        }
+        .endLoading{
+            position: absolute;
+            top: 45%;
+            left: 45%;
+            font-family: Pixelar;
+            color: white;
+            text-align: center;
+            font-size: 30px;
+        }
+        .preloader{
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            width: 100vw;
+            text-align: center;
+            background-color: black;
+            font-family: Pixelar;
+            font-size: 35px;
+            color: white;
+            cursor: default;
+            z-index: 1000;
+        }
+        .preloader_inner{
+            position: absolute;
+            top: 40%;
+            left: 40%;
+        }
+        .preloader_inner h1{
+            margin-top: -15px;
+        }
+        .tag{
+            position: absolute;
+            font-size: 15px;
+            color: rgba(0, 0, 0, .5);
+            padding: 10px;
+            right: 0;
+            background-color: rgba(255, 255, 255, .5);
+        }
+    </style>
+</head>
 <div class="preloader" id="preloader">
     <div class="preloader_inner">
         <img src="img/acron_anime_tv_2.gif">
