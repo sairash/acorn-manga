@@ -1,5 +1,5 @@
 ![acorn-manga](https://img.shields.io/github/license/sairash/acorn-manga)<br/>
-<img src="img/acorn_anime_tv_2.gif"><br/>
+<img src="img/acorn_anime_tv_black_2.gif"><br/>
 # acron-manga
  Best looking online manga reader template.
  
