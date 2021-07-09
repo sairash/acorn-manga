@@ -1,0 +1,587 @@
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" />
+<style type="text/css">
+    @font-face {
+      font-family: 'Pixelar';
+      font-style: normal;
+      font-weight: 400;
+      src: url(https://db.onlinewebfonts.com/t/cd2242816d23dad4250f5ea159c7675c.woff2) format('woff2');
+    }
+
+    *::-webkit-scrollbar-track {
+        background-color: transparent;
+    }
+
+    *::-webkit-scrollbar {
+        width: 0px;
+        height: 0px;
+        background-color: transparent;
+    }
+
+    *:focus {
+        outline: none;
+    }
+    body{
+        padding: 0;
+        margin: 0;
+        background: #000;
+        overflow: hidden;
+    }
+    .backdrop_blur {
+      background-color: rgba(255, 255, 255, .6);
+    }
+    .backdrop_black{
+      background-color: rgba(0,0,0,.6);
+    }
+    .backdrop_black_ng{
+      background-color: rgba(0,0,0,.6);
+    }
+    /* if backdrop support: very transparent and blurred */
+    @supports ((-webkit-backdrop-filter: blur(20px)) or (backdrop-filter: blur(20px))) {
+      .backdrop_black{
+        background-color: rgba(0,0,0,0);
+      }
+      .backdrop_blur {
+        background-color: rgba(255, 255, 255, 0);
+        -webkit-backdrop-filter:  blur(20px);
+        backdrop-filter:  blur(20px);
+      }
+    }
+    #myElement {
+        width: 100vw;
+        height: 100vh;
+        text-align: center;
+        font-family: Varela Round;
+        font-size: 70px;
+        position: fixed;
+        left: 0;
+        z-index: 1000;
+    }
+    /* Searchbar */
+
+      .searchBar {
+        display: flex;
+        justify-content: space-between;
+        position: absolute;
+        top: -100px;
+        z-index: 1003;
+        padding: 5px 10px 5px 10px;
+        width: calc(100% - 20px);
+        height: 50px;
+        background-color: transparent;
+        box-shadow: 0 0.3px 0.7px rgba(0, 0, 0, 0.126), 0 0.9px 1.7px rgba(0, 0, 0, 0.179), 0 1.8px 3.5px rgba(0, 0, 0, 0.224), 0 3.7px 7.3px rgba(0, 0, 0, 0.277), 0 10px 20px rgba(0, 0, 0, 0.4);
+      }
+
+      .searchBar button {
+        font-size: 20px;
+        margin-left: 10px;
+        color: #fff;
+        background-color: transparent;
+        border: none;
+        padding-top: 5px;
+        cursor: pointer;
+      }
+
+      .searchBar input {
+        width: 100%;
+        background-color: rgba(255, 255, 255, 0);
+        height: 100%;
+        font-size: 20px;
+        border: solid;
+        border-width: 0 0 2px 0;
+        border-color: white;
+        color: white;
+      }
+
+    @media screen and (max-width: 740px) {
+        #myElement {
+            font-size: 30px;
+        }
+        .titleVideoMain{
+            left: 10px;
+        }
+    }
+    #mainContainer{
+        position: absolute;
+        left: 0;
+        top: 0;
+        display: flex;
+        justify-content: center;
+    }
+    .mainContainerInner{
+        width: 100vw !important;
+        height: 100vh !important;
+    }
+    .InnerContent_first{
+        position: relative;
+        margin-top: 100vh;
+        width: 100vw !important;
+        height: 100vh !important; 
+    }
+    .InnerContent{
+        position: relative;
+        width: 100vw !important;
+        height: 100vh !important; 
+    }
+    .InnerContentInner{
+        width: 100vw !important;
+        height: 100vh !important; 
+        text-align: center;
+    }
+    .InnerContentInner .poster_front{
+        margin: 20px 0px 20px 0px;
+        width: 300px;
+        height: 450px;
+        vertical-align: middle;
+    }
+    .InnerContentInner .manga_page{
+        height: 100vh;
+        width: auto;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+    }
+    @media screen and (max-width: 740px) {
+        .InnerContentInner .manga_page{
+            max-height: 100vh;
+            height: auto;
+            width: 100vw;
+            margin: auto;
+        }
+    }
+
+    .InnerContentInner div{
+        font-size: 20px;
+        font-family: Pixelar;
+        padding: 20px;
+        background-color: rgba(0,0,0,.5);
+        color: #ffffff;
+    }
+    .endLoading{
+        position: absolute;
+        top: 45%;
+        left: 45%;
+        font-family: Pixelar;
+        color: white;
+        text-align: center;
+        font-size: 30px;
+    }
+    .preloader{
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        width: 100vw;
+        text-align: center;
+        background-color: black;
+        font-family: Pixelar;
+        font-size: 35px;
+        color: white;
+        cursor: default;
+        z-index: 1000;
+    }
+    .preloader_inner{
+        position: absolute;
+        top: 40%;
+        left: 40%;
+    }
+    .preloader_inner h1{
+        margin-top: -15px;
+    }
+    .tag{
+        position: absolute;
+        font-size: 15px;
+        color: rgba(0, 0, 0, .5);
+        padding: 10px;
+        right: 0;
+        background-color: rgba(255, 255, 255, .5);
+    }
+</style>
+<div class="preloader" id="preloader">
+    <div class="preloader_inner">
+        <img src="img/acron_anime_tv_2.gif">
+        <h1>Acron-Manga</h1>
+    </div>
+</div>
+
+<div>
+    <div class="searchBar backdrop_blur backdrop_black" id="searchBar">
+        <input type="text" placeholder="Search.." id="searchBarInput">
+        <button><i class="fa fa-arrow-right"></i></button>
+    </div>
+</div>
+<div id="myElement"></div>
+
+<div id="mainContainer">
+    <div class="mainContainerInner" id="videoContainer0">
+        <div class="InnerContent" id="mainContainerInner0,1" style="background: url(https://cdn.statically.io/img/img.y7349.top/img/c/kanojo-okarishimasu/chapter-1/kanojo-okarishimasu-chapter-1-page-1.jpg); background-size: cover; background-position: center;">
+            <div class="backdrop_black backdrop_blur InnerContentInner">
+                <img class="poster_front" src="https://cdn.statically.io/img/img.y7349.top/img/c/kanojo-okarishimasu/chapter-1/kanojo-okarishimasu-chapter-1-page-1.jpg">
+                <div>
+                    Kanojo, Okarishimasu
+                </div>
+            </div>
+        </div>
+        <div class="InnerContent" id="mainContainerInner0,3" style="background: url(https://cdn.statically.io/img/img.y7349.top/img/c/kanojo-okarishimasu/chapter-1/kanojo-okarishimasu-chapter-1-page-1.jpg); background-size: cover; background-position: center">
+            <div class="backdrop_black backdrop_blur InnerContentInner">
+                <img src="https://cdn.statically.io/img/img.y7349.top/img/c/kanojo-okarishimasu/chapter-1/kanojo-okarishimasu-chapter-1-page-2.jpg" class="manga_page">
+                <div class="tag" style="top: calc(100vh - 100px)">Kanojo Okarishimasu (c-1)</div>
+            </div>
+        </div>
+        <div class="InnerContent" id="mainContainerInner0,3" style="background: url(https://cdn.statically.io/img/img.y7349.top/img/c/kanojo-okarishimasu/chapter-1/kanojo-okarishimasu-chapter-1-page-1.jpg); background-size: cover; background-position: center">
+            <div class="backdrop_black backdrop_blur InnerContentInner">
+                <img src="https://cdn.statically.io/img/img.y7349.top/img/c/kanojo-okarishimasu/chapter-1/kanojo-okarishimasu-chapter-1-page-4.jpg" class="manga_page">
+                <div class="tag" style="top: calc(100vh - 100px)">Kanojo Okarishimasu (c-1)</div>
+            </div>
+        </div>
+        <div class="InnerContent" id="mainContainerInner0,3" style="background: url(https://cdn.statically.io/img/img.y7349.top/img/c/kanojo-okarishimasu/chapter-1/kanojo-okarishimasu-chapter-1-page-1.jpg); background-size: cover; background-position: center">
+            <div class="backdrop_black backdrop_blur InnerContentInner">
+                <img src="https://cdn.statically.io/img/img.y7349.top/img/c/kanojo-okarishimasu/chapter-1/kanojo-okarishimasu-chapter-1-page-5.jpg" class="manga_page">
+                <div class="tag" style="top: calc(100vh - 100px)">Kanojo Okarishimasu (c-1)</div>
+            </div>
+        </div>
+        <div class="InnerContent" id="mainContainerInner0,2" style="background: url(https://cdn.statically.io/img/img.y7349.top/img/c/kanojo-okarishimasu/chapter-1/kanojo-okarishimasu-chapter-1-page-1.jpg); background-size: cover; background-position: center">
+            <div class="backdrop_black backdrop_blur InnerContentInner">
+                <img src="https://cdn.statically.io/img/img.y7349.top/img/c/kanojo-okarishimasu/chapter-1/kanojo-okarishimasu-chapter-1-page-6.jpg" class="manga_page">
+                <div class="tag" style="top: calc(100vh - 100px)">Kanojo Okarishimasu (c-1)</div>
+            </div>
+        </div>
+        <div class="InnerContent" id="mainContainerInner0,2" style="background: url(https://cdn.statically.io/img/img.y7349.top/img/c/kanojo-okarishimasu/chapter-1/kanojo-okarishimasu-chapter-1-page-1.jpg); background-size: cover; background-position: center">
+            <div class="backdrop_black backdrop_blur InnerContentInner">
+                <img src="https://cdn.statically.io/img/img.y7349.top/img/c/kanojo-okarishimasu/chapter-1/kanojo-okarishimasu-chapter-1-page-7.jpg" class="manga_page">
+                <div class="tag" style="top: calc(100vh - 100px)">Kanojo Okarishimasu (c-1)</div>
+            </div>
+        </div>
+        <div class="InnerContent" id="mainContainerInner0,2" style="background: url(https://cdn.statically.io/img/img.y7349.top/img/c/kanojo-okarishimasu/chapter-1/kanojo-okarishimasu-chapter-1-page-1.jpg); background-size: cover; background-position: center">
+            <div class="backdrop_black backdrop_blur InnerContentInner">
+                <img src="https://cdn.statically.io/img/img.y7349.top/img/c/kanojo-okarishimasu/chapter-1/kanojo-okarishimasu-chapter-1-page-8.jpg" class="manga_page">
+                <div class="tag" style="top: calc(100vh - 100px)">Kanojo Okarishimasu (c-1)</div>
+            </div>
+        </div>
+        <div class="InnerContent" id="mainContainerInner0,2" style="background: url(https://cdn.statically.io/img/img.y7349.top/img/c/kanojo-okarishimasu/chapter-1/kanojo-okarishimasu-chapter-1-page-1.jpg); background-size: cover; background-position: center">
+            <div class="backdrop_black backdrop_blur InnerContentInner">
+                <img src="https://cdn.statically.io/img/img.y7349.top/img/c/kanojo-okarishimasu/chapter-1/kanojo-okarishimasu-chapter-1-page-9.jpg" class="manga_page">
+                <div class="tag" style="top: calc(100vh - 100px)">Kanojo Okarishimasu (c-1)</div>
+            </div>
+        </div>
+        <div class="InnerContent" id="mainContainerInner0,2" style="background: url(https://cdn.statically.io/img/img.y7349.top/img/c/kanojo-okarishimasu/chapter-1/kanojo-okarishimasu-chapter-1-page-1.jpg); background-size: cover; background-position: center">
+            <div class="backdrop_black backdrop_blur InnerContentInner">
+                <img src="https://cdn.statically.io/img/img.y7349.top/img/c/kanojo-okarishimasu/chapter-1/kanojo-okarishimasu-chapter-1-page-10.jpg" class="manga_page">
+            </div>
+        </div>
+    </div>
+    <div class="mainContainerInner" id="videoContainer1">
+        <div class="InnerContent" id="mainContainerInner0,1" style="background: url(https://cdn.statically.io/img/i2.y7349.top/img/c/tales-of-demons-and-gods/chapter-1/tales-of-demons-and-gods-chapter-1-page-1.jpg); background-size: cover; background-position: center;">
+            <div class="backdrop_black backdrop_blur InnerContentInner">
+                <img class="poster_front" src="https://cdn.statically.io/img/i2.y7349.top/img/c/tales-of-demons-and-gods/chapter-1/tales-of-demons-and-gods-chapter-1-page-1.jpg">
+                <div>
+                    Tales Of Demons And Gods
+                </div>
+            </div>
+        </div>
+        <div class="InnerContent" id="mainContainerInner0,3" style="background: url(https://cdn.statically.io/img/i2.y7349.top/img/c/tales-of-demons-and-gods/chapter-1/tales-of-demons-and-gods-chapter-1-page-1.jpg); background-size: cover; background-position: center">
+            <div class="backdrop_black backdrop_blur InnerContentInner">
+                <img src="https://cdn.statically.io/img/img.y7349.top/img/c/tales-of-demons-and-gods/chapter-1/tales-of-demons-and-gods-chapter-1-page-2.jpg" class="manga_page">
+                <div class="tag" style="top: calc(100vh - 100px)">Tales Of Demons And Gods (c-1)</div>
+            </div>
+        </div>
+        <div class="InnerContent" id="mainContainerInner0,3" style="background: url(https://cdn.statically.io/img/i2.y7349.top/img/c/tales-of-demons-and-gods/chapter-1/tales-of-demons-and-gods-chapter-1-page-1.jpg); background-size: cover; background-position: center">
+            <div class="backdrop_black backdrop_blur InnerContentInner">
+                <img src="https://cdn.statically.io/img/img.y7349.top/img/c/tales-of-demons-and-gods/chapter-1/tales-of-demons-and-gods-chapter-1-page-4.jpg" class="manga_page">
+                <div class="tag" style="top: calc(100vh - 100px)">Tales Of Demons And Gods (c-1)</div>
+            </div>
+        </div>
+        <div class="InnerContent" id="mainContainerInner0,3" style="background: url(https://cdn.statically.io/img/i2.y7349.top/img/c/tales-of-demons-and-gods/chapter-1/tales-of-demons-and-gods-chapter-1-page-1.jpg); background-size: cover; background-position: center">
+            <div class="backdrop_black backdrop_blur InnerContentInner">
+                <img src="https://cdn.statically.io/img/img.y7349.top/img/c/tales-of-demons-and-gods/chapter-1/tales-of-demons-and-gods-chapter-1-page-5.jpg" class="manga_page">
+                <div class="tag" style="top: calc(100vh - 100px)">Tales Of Demons And Gods (c-1)</div>
+            </div>
+        </div>
+        <div class="InnerContent" id="mainContainerInner0,2" style="background: url(https://cdn.statically.io/img/i2.y7349.top/img/c/tales-of-demons-and-gods/chapter-1/tales-of-demons-and-gods-chapter-1-page-1.jpg); background-size: cover; background-position: center">
+            <div class="backdrop_black backdrop_blur InnerContentInner">
+                <img src="https://cdn.statically.io/img/img.y7349.top/img/c/tales-of-demons-and-gods/chapter-1/tales-of-demons-and-gods-chapter-1-page-6.jpg" class="manga_page">
+                <div class="tag" style="top: calc(100vh - 100px)">Tales Of Demons And Gods (c-1)</div>
+            </div>
+        </div>
+        <div class="InnerContent" id="mainContainerInner0,2" style="background: url(https://cdn.statically.io/img/i2.y7349.top/img/c/tales-of-demons-and-gods/chapter-1/tales-of-demons-and-gods-chapter-1-page-1.jpg); background-size: cover; background-position: center">
+            <div class="backdrop_black backdrop_blur InnerContentInner">
+                <img src="https://cdn.statically.io/img/img.y7349.top/img/c/tales-of-demons-and-gods/chapter-1/tales-of-demons-and-gods-chapter-1-page-7.jpg" class="manga_page">
+                <div class="tag" style="top: calc(100vh - 100px)">Tales Of Demons And Gods (c-1)</div>
+            </div>
+        </div>
+    </div>
+    <div class="mainContainerInner" id="videoContainer2">
+        <div class="InnerContent" id="mainContainerInner2,1" style="background-color: #000;">
+            <div class="endLoading">
+                <img src="img/acron_anime_tv_2.gif">
+                <br>
+                <div>Loading!!</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://hammerjs.github.io/dist/hammer.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/notify.min.js" integrity="sha512-efUTj3HdSPwWJ9gjfGR71X9cvsrthIA78/Fvd/IN+fttQVy7XWkOAXb295j8B3cmm/kFKVxjiNYzKw9IQJHIuQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script type="text/javascript">
+    $.notify.addStyle('success', {
+      html: "<div><span data-notify-text/></div>",
+      classes: {
+        base: {
+          "white-space": "nowrap",
+          "background-color": "white",
+          "color": "black",
+          "font-family": "'Open Sans', sans-serif",
+          'font-size': '0.875rem',
+          'font-weight': '400',
+          'line-height': '1.5',
+          "padding": "5px"
+        },
+      }
+    });
+    currentActiveVideoDiv = 0;
+    currentActiveVideoDivId = 0;
+    numberOfDivInVideo = 0;
+    numberOfDivContainer = 0;
+    $(window).bind('mousewheel', function(event) {
+        down=false;
+        if (event.originalEvent.wheelDelta >= 0) {
+            down = false;
+        }
+        else {
+            down = true;
+        }
+        clearTimeout($.data(this, 'scrollTimer'));
+        $.data(this, 'scrollTimer', setTimeout(function() {
+            if(down){
+                goDown();
+            }else{
+                goUp();
+            }
+        }, 50));
+    });
+    $('#mainContainer').each(
+      function() {
+        numberOfDivContainer = $('.mainContainerInner', $(this)).length;
+      }
+    );
+
+    totalMainContainer = $('.mainContainerInner').length;
+    windowHeight = $(window).height();
+    windowWidth = $(window).width();
+    $(window).resize(function() {
+        windowHeight = $(window).height();
+        windowWidth = $(window).width();
+    });
+    $("body").bind("touchstart", function(e) {
+        e.preventDefault();
+    })
+
+    function checkIfCanSlideMore(direction){
+        if (direction == 'up') {
+            if (currentActiveVideoDivId != 0) {
+                return true;
+            }else{
+                return false;
+            }
+        }else if(direction == 'down'){
+            if (currentActiveVideoDivId != numberOfDivInVideo-1) {
+                return true;
+            }else{
+                return false;
+            }
+        }else if(direction == 'right'){
+            if (currentActiveVideoDiv != numberOfDivContainer-1) {
+                return true;
+            }else{
+                return false;
+            }
+        }else{
+            if (currentActiveVideoDiv != 0) {
+                return true;
+            }else{
+                return false;
+            }
+        }
+    }
+
+    function countNumberOfElements(id) {
+        $('#'+id).each(
+          function() {
+            numberOfDivInVideo = $('.InnerContent', $(this)).length;
+          }
+        );
+    }
+    function display_modal() {
+        $('body').append('<div style="position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:1001;background-color:rgba(0,0,0,0.5);" onclick="disable_modal()" id="modal_disabler"> </div>')
+    }
+
+    function disable_modal(argument) {
+        $('#searchBar').animate({
+            'top': '-100px'
+        });
+        $('#modal_disabler').remove();
+    }
+
+    function searchInputToggle() {
+        $('#searchBar').animate({
+            'top': '0px'
+        });
+        $('#searchBarInput').focus();
+        display_modal();
+    }
+    var myElement = document.getElementById('myElement');
+
+    var mc = new Hammer(myElement);
+
+    mc.get('pan').set({ direction: Hammer.DIRECTION_ALL });
+
+    mc.on("panend", function(ev) {
+      if(ev.direction == Hammer.DIRECTION_RIGHT)
+      {
+        goLeft();
+        
+      }
+      else if(ev.direction == Hammer.DIRECTION_UP)
+      {
+        goDown();
+        
+      }
+      else if(ev.direction == Hammer.DIRECTION_LEFT)
+      {
+        goRight();
+        
+      }
+      else if(ev.direction == Hammer.DIRECTION_DOWN)
+      {
+        goUp();
+      }
+
+    });
+    mc.on("doubletap", function(ev) {
+        searchInputToggle();
+    });
+    $( document ).ready(function() {
+        $('#preloader').delay(2000).animate({'top':'-100vh'})
+        commentsViewers('Drag or Scroll or Use arrow keys to interact with the site!!');
+        commentsViewers('Double tap to View Search bar.');
+    });
+
+
+
+
+    function goLeft() {
+        if (checkIfCanSlideMore('left')) {
+            if ($('#mainContainer').position().left != 0) {
+                    currentActiveVideoDiv -=1
+                    currentActiveVideoDivId =0;
+                    expected_at = -currentActiveVideoDiv * windowWidth;
+                    $('#mainContainer').animate({
+                        'top': 0,
+                        'left': $('#mainContainer').position().left + windowWidth+'px'
+
+                    }, function() {
+                        $('#mainContainer').css({'left': expected_at+'px'});
+                    }); 
+               
+            }
+            console.log($('#mainContainer').position())
+            console.log('Left');
+        }
+    }
+
+    function goRight() {
+        if (checkIfCanSlideMore('right')) {
+            if ($('#mainContainer').position().left != -(totalMainContainer - 1) * windowWidth) {
+                // expected_at = $('#mainContainer').position().left - windowWidth;
+                    currentActiveVideoDiv +=1;
+                    currentActiveVideoDivId =0;
+                    expected_at = -currentActiveVideoDiv * windowWidth;
+                     $('#mainContainer').animate({
+                        'top': 0,
+                        'left': $('#mainContainer').position().left - windowWidth+'px'
+
+                    }, function() {
+                        $('#mainContainer').css({'left': expected_at+'px'});
+                    });
+               
+            }
+            console.log((totalMainContainer - 1) * windowWidth);
+            console.log($('#mainContainer').position())
+            console.log('Right');
+        }
+    }
+
+    function goUp(){
+        if (checkIfCanSlideMore('up')) {
+            if ($('#mainContainer').position().top != 0) {
+                currentActiveVideoDivId -=1;
+                // expected_at = $('#mainContainer').position().top + windowHeight;
+                expected_at = -currentActiveVideoDivId * windowHeight;
+                $('#mainContainer').animate({
+                    'top': $('#mainContainer').position().top + windowHeight+'px'
+
+                }, function() {
+                        $('#mainContainer').css({'top': expected_at+'px'});
+                    }); 
+            }
+            console.log($('#mainContainer').position())
+            console.log('Up');
+        }
+    }
+
+    function goDown() {
+        countNumberOfElements('videoContainer'+currentActiveVideoDiv);
+        if (checkIfCanSlideMore('down')) {
+            if ($('#mainContainer').position().top != -(numberOfDivInVideo - 1) * windowHeight) {
+                currentActiveVideoDivId +=1;
+                // expected_at = $('#mainContainer').position().top - windowHeight;
+                expected_at = -currentActiveVideoDivId * windowHeight;
+                $('#mainContainer').animate({
+                    'top': $('#mainContainer').position().top - windowHeight+'px'
+
+                }, function() {
+                        $('#mainContainer').css({'top': expected_at+'px'});
+                    }); 
+            }
+            
+            console.log($('#mainContainer').position())
+            console.log('Down');
+        }
+    }
+
+    function commentsViewers(texts) {
+
+      $.notify(texts, {
+        style: 'success',
+        position:"top right",
+        autoHideDelay: 10000
+      });
+    }
+    document.onkeydown = function(e) {
+        switch(e.which) {
+            case 37: // left
+            goLeft();
+            break;
+
+            case 38: // up
+            goUp();
+            break;
+
+            case 39: // right
+            goRight();
+            break;
+
+            case 40: // down
+            goDown();
+            break;
+
+            default: return; // exit this handler for other keys
+        }
+        e.preventDefault(); // prevent the default action (scroll / move caret)
+    };
+</script>
